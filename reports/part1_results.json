@@ -1,0 +1,110 @@
+{
+  "cleaning": {
+    "schema_version": 1,
+    "source_url": "https://archive.ics.uci.edu/ml/machine-learning-databases/00462/drugsCom_raw.zip",
+    "source_sha256": "71cf6adb29fe9dd61ae77bed2f5674db623959de38e2f0a51f74f6e91312e519",
+    "tokenizer": "unicode-word-apostrophe-v1",
+    "counts": {
+      "input": 215063,
+      "retained": 182475,
+      "missing_or_malformed_condition": 988,
+      "excluded_duplicate_drug_review": 72,
+      "excluded_train_test_text_overlap": 32514,
+      "excluded_missing_drug_or_review": 2
+    },
+    "splits": {
+      "test": {
+        "input": 53766,
+        "retained": 53753,
+        "missing_or_malformed_condition": 295,
+        "excluded_duplicate_drug_review": 13
+      },
+      "train": {
+        "input": 161297,
+        "retained": 128722,
+        "excluded_train_test_text_overlap": 32514,
+        "missing_or_malformed_condition": 693,
+        "excluded_duplicate_drug_review": 59,
+        "excluded_missing_drug_or_review": 2
+      }
+    },
+    "unique_drugs": 3540,
+    "unique_conditions": 907,
+    "deduplication": "Keep first (drug_key, casefolded cleaned review); test first. Remove train reviews whose normalized full text occurs in test, across all drugs.",
+    "outputs": {
+      "test.jsonl": "091210a8637eb939224570d479dac7572ade47bfd6af19d4476e152a74e33ced",
+      "train.jsonl": "91f08ce31a95d077fc014e6aa23947a0285ec6a6ffda3e01ec3bd567dad8c425"
+    }
+  },
+  "index": {
+    "schema_version": 1,
+    "tokenizer": "unicode-word-apostrophe-v1",
+    "indexed_field": "review",
+    "splits": [
+      "train",
+      "test"
+    ],
+    "documents": 182475,
+    "terms": 54794,
+    "postings": 11171825,
+    "tokens": 15530081,
+    "average_document_length": 85.1079928757364,
+    "input_sha256": {
+      "train.jsonl": "91f08ce31a95d077fc014e6aa23947a0285ec6a6ffda3e01ec3bd567dad8c425",
+      "test.jsonl": "091210a8637eb939224570d479dac7572ade47bfd6af19d4476e152a74e33ced"
+    }
+  },
+  "checks": {
+    "test_hash_matches": true,
+    "test_count_matches": true,
+    "train_hash_matches": true,
+    "train_count_matches": true,
+    "no_exact_text_train_test_leakage": true,
+    "all_input_rows_accounted_for": true,
+    "sqlite_integrity": true,
+    "indexed_ids_match_corpus": true,
+    "index_input_hashes_match": true,
+    "document_count_matches": true,
+    "tokens_match": true,
+    "term_statistics_match": true,
+    "document_lengths_match": true,
+    "drug_filtered_smoke_search": true,
+    "sample_term_vectors_match": true
+  },
+  "train_test_text_overlap": 0,
+  "split_counts": {
+    "test": 53753,
+    "train": 128722
+  },
+  "smoke_query": {
+    "query": "sleep groggy",
+    "drug": "Trazodone",
+    "top_results": [
+      {
+        "doc_id": 231920,
+        "drug_name": "Trazodone",
+        "score": 11.523612896776768
+      },
+      {
+        "doc_id": 231600,
+        "drug_name": "Trazodone",
+        "score": 10.725249785236326
+      },
+      {
+        "doc_id": 232022,
+        "drug_name": "Trazodone",
+        "score": 10.549577649762268
+      },
+      {
+        "doc_id": 231770,
+        "drug_name": "Trazodone",
+        "score": 10.087842490836199
+      },
+      {
+        "doc_id": 231991,
+        "drug_name": "Trazodone",
+        "score": 10.083961629756637
+      }
+    ]
+  }
+}
