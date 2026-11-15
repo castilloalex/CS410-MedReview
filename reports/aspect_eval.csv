@@ -1,0 +1,13 @@
+method,class,precision,recall,f1,support
+keyword,effectiveness,0.583,0.438,0.5,32
+keyword,side_effects,0.625,0.571,0.597,35
+keyword,neither,0.656,0.792,0.718,53
+keyword,macro_avg,0.622,0.6,0.605,120
+logreg-cv,effectiveness,0.524,0.344,0.415,32
+logreg-cv,side_effects,0.562,0.514,0.537,35
+logreg-cv,neither,0.522,0.66,0.583,53
+logreg-cv,macro_avg,0.536,0.506,0.512,120
+logreg-weak,effectiveness,0.591,0.406,0.481,32
+logreg-weak,side_effects,0.656,0.6,0.627,35
+logreg-weak,neither,0.652,0.811,0.723,53
+logreg-weak,macro_avg,0.633,0.606,0.61,120
