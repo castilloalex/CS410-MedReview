@@ -108,9 +108,7 @@ The default index searches both splits and scores review text only. Drug filteri
 
 Train sentiment models and fit text features using **train.jsonl only**; reserve **test.jsonl** for evaluation. TF-IDF/RM3 experiments, relevance evaluation, classifiers, summaries, and the UI remain later work.
 
-## Other parts of the project
-
-### Retrieval methods and evaluation
+## Part 2: Retrieval methods and evaluation
 
 | File | Role |
 | --- | --- |
@@ -120,9 +118,49 @@ Train sentiment models and fit text features using **train.jsonl only**; reserve
 | `medreview/pool.py` | `python -m medreview.pool` pools the top 10 results of each method for 25 queries into `reports/relevance_judgments_pool.csv` for relevance judging. |
 | `medreview/evaluation.py` | `python -m medreview.evaluation` reports Precision@10 and nDCG@10 from the judged `reports/relevance_judgments_pool.xlsx`. |
 
-### Aspect classification and side-effect extraction
+TODO: ADD DETAILS
 
-Labels review sentences as effectiveness, side effects, or neither, and extracts each drug's commonly reported side effects. See [medreview/aspects/README.md](medreview/aspects/README.md).
+## Part 3: Aspect classification and side-effect extraction
+
+Labels each review sentence as `effectiveness`, `side_effects`, or `neither`, and extracts each drug's most commonly reported side effects. Needs the packages in `requirements.txt`. The method, hand labeling, evaluation design, and known limits are in [medreview/aspects/README.md](medreview/aspects/README.md); results are in [reports/aspects_summary.md](reports/aspects_summary.md).
+
+### Commands
+
+| Command | What it does |
+| --- | --- |
+| `python -m medreview.aspects classify "It helped me sleep. But I felt groggy all morning."` | Prints the label of each sentence. |
+| `python -m medreview.aspects sample` | Writes 120 test-split sentences to `data/labels/aspect_labels.csv` for hand labeling. Refuses to overwrite without `--force`. |
+| `python -m medreview.aspects evaluate` | Compares keyword matching and logistic regression on the hand labels. Writes `reports/aspect_eval.csv`, `reports/aspect_predictions.csv`, and the model `data/aspects/aspect_logreg.joblib`. Takes about a minute. |
+| `python -m medreview.aspects side-effects` | Builds `data/aspects/side_effects_by_drug.csv` from all cleaned reviews. Takes a few minutes. |
+| `python -m unittest tests.test_aspects -v` | Runs the aspect tests. |
+
+`classify` and the code below work straight from the repository. `sample`, `evaluate`, and `side-effects` need the cleaned data from `python -m medreview all`. The logistic regression model is gitignored; `evaluate` creates it.
+
+### Use from code
+
+```python
+from medreview.aspects import classify_review, extract_side_effects, SideEffectTable
+
+classify_review("It helped me sleep. But I felt groggy all morning.", condition="Insomnia")
+# [("It helped me sleep.", "effectiveness"), ("But I felt groggy all morning.", "side_effects")]
+
+extract_side_effects("It made me very drowsy and I gained 10 pounds.")   # ["drowsiness", "weight gain"]
+
+table = SideEffectTable.load("data/aspects/side_effects_by_drug.csv")
+table.top_list("Trazodone", k=3)   # [("drowsiness", 0.186), ("anxiety", 0.092), ("fatigue", 0.089)]
+```
+
+`condition` is optional; passing the review's condition stops the treated problem from counting as a side effect. The numbers from `top_list` are the share of the drug's reviews that mention the side effect.
+
+### Output files
+
+| Location | Contents |
+| --- | --- |
+| `data/labels/aspect_labels.csv` | 120 hand-labeled sentences |
+| `data/aspects/side_effects_by_drug.csv` | Side effects per drug |
+| `data/aspects/aspect_logreg.joblib` | Trained model (gitignored) |
+| `reports/aspect_eval.csv`, `aspect_predictions.csv` | Evaluation scores and per-sentence predictions |
+| `reports/aspects_summary.md` | Summary of the aspect work |
 
 ## Data source
 
