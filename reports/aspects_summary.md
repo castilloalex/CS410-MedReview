@@ -60,9 +60,7 @@ The most common error is a missed sentence: 22 of the 44 keyword errors are effe
 
 The aspect code, evaluation, and side-effect table promised in the proposal are complete. What remains for this part:
 
-- Final review of the 120 labels by Alex; re-run `python -m medreview.aspects evaluate` and update the results table if any label changes.
 - Hand off to Lee for the summaries and Streamlit app: `classify_review` and `SideEffectTable` are ready to use (see `medreview/aspects/README.md`). The app should use the keyword classifier, which needs no model file and performs as well as the trained model.
-- Add this part's files to the team's public repository before the Dec 10 submission.
 
 ## Challenges
 
