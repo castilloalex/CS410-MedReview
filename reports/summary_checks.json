@@ -1,0 +1,41 @@
+{
+  "table": {
+    "pairs": 24922,
+    "mismatches": 0,
+    "examples": []
+  },
+  "sentiment": {
+    "test_reviews": 53753,
+    "with_effectiveness_sentence": 38458,
+    "whole_review_vs_rating": {
+      "accuracy": 0.781,
+      "macro_f1": 0.633
+    },
+    "effectiveness_only_vs_rating": {
+      "accuracy": 0.724,
+      "macro_f1": 0.53
+    },
+    "reporting_side_effects": {
+      "reviews": 20747,
+      "positive_share_whole_review": 0.593,
+      "positive_share_effectiveness_only": 0.654,
+      "rated_1_to_4": 5328,
+      "rated_1_to_4_but_effectiveness_positive": 1783
+    },
+    "no_side_effects_claims": 2032
+  },
+  "retrieval": {
+    "queries": 25,
+    "limit": 10,
+    "tfidf": {
+      "identical": 25,
+      "seconds_full_index": 6.73,
+      "seconds_drug_view": 0.36
+    },
+    "rm3": {
+      "identical": 25,
+      "seconds_full_index": 344.7,
+      "seconds_drug_view": 0.56
+    }
+  }
+}

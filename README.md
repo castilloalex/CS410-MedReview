@@ -162,6 +162,60 @@ table.top_list("Trazodone", k=3)   # [("drowsiness", 0.186), ("anxiety", 0.092),
 | `reports/aspect_eval.csv`, `aspect_predictions.csv` | Evaluation scores and per-sentence predictions |
 | `reports/aspects_summary.md` | Summary of the aspect work |
 
+## Part 4: Summaries and the Streamlit app
+
+Ask a question such as "Does trazodone help with sleep and does it make you feel groggy?"
+The app finds the drug and the concerns in the question, ranks that drug's reviews with
+BM25, TF-IDF or RM3, and summarizes them two ways: effectiveness sentiment (only the
+sentences about whether it worked are scored) and side effects (how many reviews report
+or deny each one, next to the drug's rate across all its reviews). The method, checks,
+and known limits are in [medreview/summary/README.md](medreview/summary/README.md);
+results are in [reports/summaries_summary.md](reports/summaries_summary.md).
+
+### Run the app
+
+```powershell
+pip install -r requirements.txt
+python -m medreview all                # once: data and index, a few minutes
+python -m medreview.sentiment train    # optional: better sentiment, a few minutes
+streamlit run app.py
+```
+
+The app opens in the browser. Without the trained sentiment model it uses VADER.
+The first question about a drug reads all of that drug's reviews, which takes up to a few
+seconds for the largest drugs; later questions about it are instant.
+
+### Commands
+
+| Command | What it does |
+| --- | --- |
+| `streamlit run app.py` | Opens the app. |
+| `python -m medreview.summary "Does sertraline cause nausea?"` | Prints the summary in the terminal. Options: `--drug`, `--condition`, `--method bm25/tfidf/rm3`, `--limit`, `--sentiment`. |
+| `python -m medreview.summary.evaluate` | Checks that the fast drug-restricted TF-IDF/RM3 return the same results, that drug-wide counts match the side-effect table, and compares effectiveness-only with whole-review sentiment. Writes `reports/summary_checks.json`. About 10 minutes. |
+| `python -m unittest tests.test_summary -v` | Runs the summary and app tests on a small built-in dataset. |
+
+### Use from code
+
+```python
+from medreview.index import SearchIndex
+from medreview.aspects import SideEffectTable
+from medreview.summary import load_sentiment, summarize_question
+
+with SearchIndex("data/index/reviews.sqlite") as index:
+    sentiment, _ = load_sentiment()
+    table = SideEffectTable.load("data/aspects/side_effects_by_drug.csv")
+    parsed, summary = summarize_question(index, "Does trazodone make you groggy?", table, sentiment)
+```
+
+### Output files
+
+| Location | Contents |
+| --- | --- |
+| `app.py` | The Streamlit app |
+| `.streamlit/config.toml` | App theme |
+| `reports/summary_checks.json` | Results of `python -m medreview.summary.evaluate` |
+| `reports/summaries_summary.md` | Summary of this part |
+
 ## Data source
 
 Kallumadi, S. and Gräßer, F. (2018). *Drug Review Dataset (Drugs.com)*, UCI Machine Learning Repository. [Dataset and citation](https://doi.org/10.24432/C5SK5S).
