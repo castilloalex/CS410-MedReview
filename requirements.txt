@@ -4,3 +4,4 @@ joblib
 numpy
 openpyxl
 vaderSentiment
+streamlit>=1.40

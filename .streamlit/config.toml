@@ -1,0 +1,10 @@
+# Theme for `streamlit run app.py`. A neutral accent keeps red and blue for the
+# sentiment colors in the summaries.
+[theme]
+primaryColor = "#4b5563"
+
+[client]
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false
