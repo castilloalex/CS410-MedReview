@@ -1,0 +1,7 @@
+method,true,negative,neutral,positive
+vader,negative,9887,589,3019
+vader,neutral,2755,182,1892
+vader,positive,13087,1395,20947
+logreg,negative,10228,1621,1646
+logreg,neutral,1597,1540,1692
+logreg,positive,2638,2615,30176

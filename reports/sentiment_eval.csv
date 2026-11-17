@@ -1,0 +1,11 @@
+method,class,precision,recall,f1,support
+vader,negative,0.384,0.733,0.504,13495
+vader,neutral,0.084,0.038,0.052,4829
+vader,positive,0.81,0.591,0.684,35429
+vader,macro_avg,0.426,0.454,0.413,53753
+vader,accuracy,,,0.577,53753
+logreg,negative,0.707,0.758,0.732,13495
+logreg,neutral,0.267,0.319,0.29,4829
+logreg,positive,0.9,0.852,0.875,35429
+logreg,macro_avg,0.625,0.643,0.632,53753
+logreg,accuracy,,,0.78,53753
